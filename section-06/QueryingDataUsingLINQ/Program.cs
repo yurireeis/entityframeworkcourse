@@ -19,7 +19,7 @@ namespace QueryingDataUsingLINQ
                     Name = "Yuri Reis",
                     Username = "yuri@email.com",
                     Email = "yuri@email.com",
-                    RoleKey = "admin"
+                    RoleId = 1
                 });
                 context.SaveChanges();
             }

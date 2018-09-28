@@ -9,8 +9,8 @@ using QueryingDataUsingLINQ.Contexts;
 namespace QueryingDataUsingLINQ.Migrations
 {
     [DbContext(typeof(TestContext))]
-    [Migration("20180928171247_SetNaturalPrimaryKeys")]
-    partial class SetNaturalPrimaryKeys
+    [Migration("20180928174111_Backup")]
+    partial class Backup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,8 +22,9 @@ namespace QueryingDataUsingLINQ.Migrations
 
             modelBuilder.Entity("QueryingDataUsingLINQ.Models.Permission", b =>
                 {
-                    b.Property<string>("Key")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -33,15 +34,16 @@ namespace QueryingDataUsingLINQ.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.HasKey("Key");
+                    b.HasKey("Id");
 
                     b.ToTable("Permission");
                 });
 
             modelBuilder.Entity("QueryingDataUsingLINQ.Models.Role", b =>
                 {
-                    b.Property<string>("Key")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -51,20 +53,20 @@ namespace QueryingDataUsingLINQ.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.HasKey("Key");
+                    b.HasKey("Id");
 
                     b.ToTable("Role");
                 });
 
             modelBuilder.Entity("QueryingDataUsingLINQ.Models.RolePermission", b =>
                 {
-                    b.Property<string>("RoleKey");
+                    b.Property<int>("RoleId");
 
-                    b.Property<string>("PermissionKey");
+                    b.Property<int>("PermissionId");
 
-                    b.HasKey("RoleKey", "PermissionKey");
+                    b.HasKey("RoleId", "PermissionId");
 
-                    b.HasIndex("PermissionKey");
+                    b.HasIndex("PermissionId");
 
                     b.ToTable("RolePermission");
                 });
@@ -83,8 +85,7 @@ namespace QueryingDataUsingLINQ.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<string>("RoleKey")
-                        .IsRequired();
+                    b.Property<int>("RoleId");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -92,7 +93,7 @@ namespace QueryingDataUsingLINQ.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleKey");
+                    b.HasIndex("RoleId");
 
                     b.ToTable("User");
                 });
@@ -101,11 +102,11 @@ namespace QueryingDataUsingLINQ.Migrations
                 {
                     b.Property<int>("UserId");
 
-                    b.Property<string>("PermissionKey");
+                    b.Property<int>("PermissionId");
 
-                    b.HasKey("UserId", "PermissionKey");
+                    b.HasKey("UserId", "PermissionId");
 
-                    b.HasIndex("PermissionKey");
+                    b.HasIndex("PermissionId");
 
                     b.ToTable("UserPermission");
                 });
@@ -114,12 +115,12 @@ namespace QueryingDataUsingLINQ.Migrations
                 {
                     b.HasOne("QueryingDataUsingLINQ.Models.Permission", "Permission")
                         .WithMany("RolePermissions")
-                        .HasForeignKey("PermissionKey")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("QueryingDataUsingLINQ.Models.Role", "Role")
                         .WithMany("RolePermissions")
-                        .HasForeignKey("RoleKey")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -127,7 +128,7 @@ namespace QueryingDataUsingLINQ.Migrations
                 {
                     b.HasOne("QueryingDataUsingLINQ.Models.Role", "Role")
                         .WithMany("Users")
-                        .HasForeignKey("RoleKey")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -135,7 +136,7 @@ namespace QueryingDataUsingLINQ.Migrations
                 {
                     b.HasOne("QueryingDataUsingLINQ.Models.Permission", "Permission")
                         .WithMany("UserPermissions")
-                        .HasForeignKey("PermissionKey")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("QueryingDataUsingLINQ.Models.User", "User")

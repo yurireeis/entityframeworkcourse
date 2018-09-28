@@ -8,7 +8,7 @@ namespace QueryingDataUsingLINQ.Configurations
   {
     public void Configure(EntityTypeBuilder<UserPermission> builder)
     {
-        builder.HasKey(up => new { up.UserId, up.PermissionKey });
+        builder.HasKey(up => new { up.UserId, up.PermissionId });
         builder
             .HasOne(up => up.User)
             .WithMany(u => u.UserPermissions)
@@ -16,7 +16,7 @@ namespace QueryingDataUsingLINQ.Configurations
         builder
             .HasOne(up => up.Permission)
             .WithMany(p => p.UserPermissions)
-            .HasForeignKey(up => up.PermissionKey);
+            .HasForeignKey(up => up.PermissionId);
     }
   }
 }
