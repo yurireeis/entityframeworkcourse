@@ -21,6 +21,7 @@ namespace QueryingDataUsingLINQ
                     Email = "yuri@email.com",
                     RoleId = 1
                 });
+
                 context.SaveChanges();
             }
         }
